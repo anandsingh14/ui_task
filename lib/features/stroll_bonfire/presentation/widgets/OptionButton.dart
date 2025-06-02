@@ -23,18 +23,44 @@ class OptionButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          width: 166,
+          height: 63,
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
           decoration: BoxDecoration(
             color: highlighted
                 ? ColorManager.primary.withOpacity(0.2)
-                : Colors.grey.shade800,
+                : Color(0xFF232A2E), // background color #232A2E
+            borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: selected || highlighted
                   ? ColorManager.primary
-                  : Colors.grey.shade800,
-              width: selected || highlighted ? 2 : 1,
+                  : Color(0xFF232A2E), // border color
+              width: selected || highlighted
+                  ? 2
+                  : 1, // border width
             ),
-            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x4D000000), // #0000004D
+                offset: Offset(-1, -1),
+                blurRadius: 2,
+                spreadRadius: 0,
+                  // inset shadows aren't supported directly, see note below
+              ),
+              BoxShadow(
+                color: Color(0x4D484848), // #4848484D
+                offset: Offset(1, 1),
+                blurRadius: 2,
+                spreadRadius: 0,
+
+              ),
+              BoxShadow(
+                color: Color(0x4D000000),
+                offset: Offset(2, 2),
+                blurRadius: 8,
+                spreadRadius: 0,
+              ),
+            ],
           ),
           child: Row(
             children: [
@@ -42,7 +68,9 @@ class OptionButton extends StatelessWidget {
                 width: 22,
                 height: 22,
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
+                  color: selected || highlighted
+                      ? ColorManager.primary
+                      : Colors.transparent,
                   border: Border.all(color: selected || highlighted
                       ? ColorManager.primary
                       : ColorManager.icon, width: 1.5),
@@ -52,9 +80,13 @@ class OptionButton extends StatelessWidget {
                 child: Text(
                   label,
                   style: TextStyle(
-                    color: ColorManager.icon,
-                    fontWeight: FontWeight.bold,
-                  ),
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    height: 1.05,
+                    letterSpacing: 0,
+                    color: selected || highlighted ? ColorManager.white : Color(0xFFC4C4C4),  // Hex color #C4C4C4
+                  )
                 ),
               ),
               const SizedBox(width: 8),
@@ -62,15 +94,18 @@ class OptionButton extends StatelessWidget {
                 child: Text(
                   text,
                   style: TextStyle(
-                    color: ColorManager.white,
-                    fontWeight:
-                        selected || highlighted ? FontWeight.bold : FontWeight.normal,
-                  ),
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    height: 1.05,
+                    letterSpacing: 0,
+                    color: Color(0xFFC4C4C4),  // Hex color #C4C4C4
+                  )
                 ),
               ),
             ],
           ),
-        ),
+        )
       ),
     );
   }

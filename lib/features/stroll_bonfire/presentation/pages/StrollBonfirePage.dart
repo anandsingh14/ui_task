@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ui_task/core/color_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:ui_task/features/stroll_bonfire/presentation/bloc/StrollBloc.dart';
@@ -32,6 +31,7 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
   late VideoPlayerController _controller;
   int _selectedIndex = 0;
   final FocusNode _focusNode = FocusNode(canRequestFocus: false);
+
   @override
   void initState() {
     super.initState();
@@ -54,12 +54,17 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: ColorManager.black,
+        backgroundColor: Color(0xFF0F1115),
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: ColorManager.icon,
         currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
@@ -88,11 +93,27 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
                   right: 0,
                   top: 0,
                   child: Container(
-                    width: 8,
-                    height: 8,
+                    width: 12,
+                    height: 12,
                     decoration: BoxDecoration(
-                      color: ColorManager.primary,
                       shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/badge.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '', // Text inside badge
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 7,
+                        height: 1.0,
+                        letterSpacing: 0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -113,16 +134,27 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
                   right: 0,
                   top: 0,
                   child: Container(
-                    padding: EdgeInsets.all(2),
+                    width: 12,
+                    height: 12,
                     decoration: BoxDecoration(
-                      color: ColorManager.primary,
                       shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/badge.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    constraints: BoxConstraints(minWidth: 16, minHeight: 16),
+                    alignment: Alignment.center,
                     child: Text(
                       '3',
-                      style: TextStyle(color: Colors.white, fontSize: 10),
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 7,
+                        height: 1.0,
+                        letterSpacing: 0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -141,25 +173,24 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
           ),
         ],
       ),
+
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: _controller.value.isInitialized
-                ? FittedBox(
-              fit: BoxFit.cover,
-              clipBehavior: Clip.hardEdge,
-              child: SizedBox(
-                width: _controller.value.size.width,
-                height: _controller.value.size.height,
-                child: VideoPlayer(_controller),
+          Container(
+            width: double.infinity, // set desired width
+            height: double.infinity, // set desired height
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bck.jpg'), // replace with your asset path
+                fit: BoxFit.cover, // or BoxFit.fill/BoxFit.contain/etc. as needed
               ),
-            )
-                : Container(color: Colors.black),
+              borderRadius: BorderRadius.circular(12), // optional: rounded corners
+            ),
           ),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.transparent, Colors.black.withOpacity(0.85)],
+                colors: [Colors.transparent, Colors.black.withOpacity(0.92)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -171,9 +202,28 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 24,
+                  ),
                   _buildHeader(),
                   const Spacer(),
                   _buildQuestionSection(),
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Center(
+                      child: Text(
+                        '"Mine is definitely the peace in the morning."',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400, // Regular
+                          fontStyle: FontStyle.italic,
+                          fontSize: 12,
+                          height: 1.2, // 120% line height
+                          letterSpacing: 0.0,
+                          color: const Color(0xB2CBC9FF),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 24),
                   _buildOptions(context),
                   const SizedBox(height: 16),
@@ -183,40 +233,86 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
                       Expanded(child: _buildPromptText()),
                       Row(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: ColorManager.primary,
-                                width: 2,
+
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Positioned(
+                                child: Image.asset(
+                                  'assets/images/mike.png',
+                                  width: 48,
+                                  height: 48,
+                                  color: Color(0x33000000),
+                                ),
                               ),
-                            ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.mic,
-                                color: ColorManager.primary,
-                                size: 24,
+                              // Shadow Layer 2
+                              Positioned(
+                                child: Image.asset(
+                                  'assets/images/mike.png',
+                                  width: 48,
+                                  height: 48,
+                                  color: Color(0xFFBEBEBE),
+                                ),
                               ),
-                              onPressed: () {},
-                              style: IconButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                shape: const CircleBorder(),
+                              // Shadow Layer 3
+                              Positioned(
+                                top: 1,
+                                child: Image.asset(
+                                  'assets/images/mike.png',
+                                  width: 48,
+                                  height: 48,
+                                  color: Color(0x8024232F), // #24232F80
+                                ),
                               ),
-                            ),
+                              // Main Icon
+                              Image.asset(
+                                'assets/images/mike.png',
+                                width: 48,
+                                height: 48,
+                              ),
+                            ],
                           ),
+
                           const SizedBox(width: 16),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorManager.primary,
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(14),
-                            ),
-                            child: const Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 24,
-                            ),
+
+
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Positioned(
+                                child: Image.asset(
+                                  'assets/images/arrow.png',
+                                  width: 48,
+                                  height: 48,
+                                  color: Color(0x33000000),
+                                ),
+                              ),
+                              // Shadow Layer 2
+                              Positioned(
+                                child: Image.asset(
+                                  'assets/images/arrow.png',
+                                  width: 48,
+                                  height: 48,
+                                  color: Color(0xFFBEBEBE),
+                                ),
+                              ),
+                              // Shadow Layer 3
+                              Positioned(
+                                top: 1,
+                                child: Image.asset(
+                                  'assets/images/arrow.png',
+                                  width: 48,
+                                  height: 48,
+                                  color: Color(0x8024232F), // #24232F80
+                                ),
+                              ),
+                              // Main Icon
+                              Image.asset(
+                                'assets/images/arrow.png',
+                                width: 48,
+                                height: 48,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -242,38 +338,218 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
           children: [
             Text(
               'Stroll Bonfire',
-              style: GoogleFonts.poppins(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: ColorManager.primary,
+              style: TextStyle(
+                fontFamily: 'ProximaNova',
+                // Add to pubspec.yaml
+                fontWeight: FontWeight.w700,
+                fontSize: 34,
+                height: 1.0,
+                // 100% line height
+                letterSpacing: 0,
+                color: Color(0xFFCCC8FF),
                 shadows: [
                   Shadow(
-                    blurRadius: 12.0,
-                    color: ColorManager.primary.withOpacity(0.5),
+                    color: Color(0x33000000), // #00000033
+                    blurRadius: 20,
                     offset: Offset(0, 0),
+                  ),
+                  Shadow(
+                    color: Color(0xFFBEBEBE),
+                    blurRadius:9,
+                    offset: Offset(0, 0),
+                  ),
+                  Shadow(
+                    color: Color(0x8024232F), // #24232F80
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
                   ),
                 ],
               ),
             ),
+
             SizedBox(width: 8),
-            Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: ColorManager.primary,
-              size: 28,
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/arrow_down.png',
+                    width: 24,
+                    height: 24,
+                    color: Color(0x33000000),
+                  ),
+                ),
+                // Shadow Layer 2
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/arrow_down.png',
+                    width: 24,
+                    height: 24,
+                    color: Color(0xFFBEBEBE),
+                  ),
+                ),
+                // Shadow Layer 3
+                Positioned(
+                  top: 1,
+                  child: Image.asset(
+                    'assets/images/arrow_down.png',
+                    width: 24,
+                    height: 24,
+                    color: Color(0x8024232F), // #24232F80
+                  ),
+                ),
+                // Main Icon
+                Image.asset(
+                  'assets/images/arrow_down.png',
+                  width: 24,
+                  height: 24,
+                ),
+              ],
             ),
           ],
         ),
         const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.access_time, color: ColorManager.icon, size: 18),
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/watch.png',
+                    width: 22,
+                    height: 22,
+                    color: Color(0x33000000),
+                  ),
+                ),
+                // Shadow Layer 2
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/watch.png',
+                    width: 22,
+                    height: 22,
+                    color: Color(0xFFBEBEBE),
+                  ),
+                ),
+                // Shadow Layer 3
+                Positioned(
+                  top: 1,
+                  child: Image.asset(
+                    'assets/images/watch.png',
+                    width: 22,
+                    height: 22,
+                    color: Color(0x8024232F), // #24232F80
+                  ),
+                ),
+                // Main Icon
+                Image.asset(
+                  'assets/images/watch.png',
+                  width: 23,
+                  height: 23,
+                  color: Color(0xFFFFFFFF), // Icon fill color
+                ),
+              ],
+            ),
             SizedBox(width: 4),
-            Text("22h 00m", style: TextStyle(color: ColorManager.icon)),
+            Text(
+              '22h 00m',
+              style: TextStyle(
+                fontFamily: 'ProximaNova',
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                height: 1.0,
+                letterSpacing: 0.0,
+                color: Color(0xFFFFFFFF),
+                shadows: [
+                  Shadow(
+                    color: Color(0x33000000), // #00000033
+                    blurRadius: 20,
+                    offset: Offset(0, 0),
+                  ),
+                  Shadow(
+                    color: Color(0xFFBEBEBE),
+                    blurRadius: 9,
+                    offset: Offset(0, 0),
+                  ),
+                  Shadow(
+                    color: Color(0x8024232F), // #24232F80
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+            ),
+
             SizedBox(width: 16),
-            Icon(Icons.people, color: ColorManager.icon, size: 18),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/user.png',
+                    width: 26,
+                    height: 26,
+                    color: Color(0x33000000),
+                  ),
+                ),
+                // Shadow Layer 2
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/user.png',
+                    width: 26,
+                    height: 26,
+                    color: Color(0xFFBEBEBE),
+                  ),
+                ),
+                // Shadow Layer 3
+                Positioned(
+                  top: 1,
+                  child: Image.asset(
+                    'assets/images/user.png',
+                    width: 26,
+                    height: 26,
+                    color: Color(0x8024232F), // #24232F80
+                  ),
+                ),
+                // Main Icon
+                Image.asset(
+                  'assets/images/user.png',
+                  width: 26,
+                  height: 26,
+                  color: Color(0xFFFFFFFF), // Icon fill color
+                ),
+              ],
+            ),
             SizedBox(width: 4),
-            Text("103", style: TextStyle(color: ColorManager.icon)),
+            Text(
+              '103',
+              style: TextStyle(
+                fontFamily: 'ProximaNova',
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                height: 1.0,
+                letterSpacing: 0.0,
+                color: Color(0xFFFFFFFF),
+                shadows: [
+                  Shadow(
+                    color: Color(0x33000000), // #00000033
+                    blurRadius: 20,
+                    offset: Offset(0, 0),
+                  ),
+                  Shadow(
+                    color: Color(0xFFBEBEBE),
+                    blurRadius: 9,
+                    offset: Offset(0, 0),
+                  ),
+                  Shadow(
+                    color: Color(0x8024232F), // #24232F80
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ],
@@ -286,10 +562,9 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
       Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 45.0),
+            padding: const EdgeInsets.only(left: 35.0),
             child: SizedBox(
-              width: 180,
-              height: 30,
+              width: 107,
               child: NeumorphicRectangle(
                 innerShadow: true,
                 outerShadow: true,
@@ -297,12 +572,33 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
                 shadowColor: ColorManager.shadowColor,
                 highlightColor: ColorManager.highlightColor.withOpacity(0.05),
                 child: const Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.only(left: 14.0,right: 8,top: 8,bottom: 8),
                   child: Text(
-                    "Angelina, 28",
+                    'Angelina, 28',
                     style: TextStyle(
-                      color: ColorManager.white,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProximaNova',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                      height: 1.0,
+                      letterSpacing: 0.0,
+                      color: Color(0xFFFFFFFF),
+                      shadows: [
+                        Shadow(
+                          color: Color(0x33000000), // #00000033
+                          blurRadius: 7.9,
+                          offset: Offset(0, 0),
+                        ),
+                        Shadow(
+                          color: Color(0xFFBEBEBE),
+                          blurRadius: 2,
+                          offset: Offset(0, 0),
+                        ),
+                        Shadow(
+                          color: Color(0x8024232F), // #24232F80
+                          blurRadius: 2,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -310,8 +606,8 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
             ),
           ),
           SizedBox(
-            width: 90,
-            height: 80,
+            width: 60,
+            height: 60,
             child: NeuomorphicCircle(
               innerShadow: true,
               outerShadow: false,
@@ -335,27 +631,20 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(left: 90.0, top: 40),
+            padding: EdgeInsets.only(left: 70.0, top: 40),
             child: Text(
               "What is your favorite time\nof the day?",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                fontFamily: 'ProximaNova',
+                fontWeight: FontWeight.w700, // 700 = Bold
+                fontSize: 20,
+                height: 1.0, // 100% line height
+                letterSpacing: 0.0,
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 70.0, top: 100),
-            child: Text(
-              '"Mine is definitely the peace in the morning."',
-              style: TextStyle(
-                color: Colors.white70,
-                fontStyle: FontStyle.italic,
-                fontSize: 13,
-              ),
-            ),
-          ),
+
         ],
       ),
     ],
@@ -372,14 +661,16 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
                   label: "A",
                   text: "The peace in the early mornings",
                   selected: selectedOption == "A",
-                  onTap: () => context.read<StrollBloc>().add(SelectOptionEvent("A")),
+                  onTap: () =>
+                      context.read<StrollBloc>().add(SelectOptionEvent("A")),
                 ),
                 const SizedBox(width: 12),
                 OptionButton(
                   label: "B",
                   text: "The magical golden hours",
                   selected: selectedOption == "B",
-                  onTap: () => context.read<StrollBloc>().add(SelectOptionEvent("B")),
+                  onTap: () =>
+                      context.read<StrollBloc>().add(SelectOptionEvent("B")),
                 ),
               ],
             ),
@@ -390,14 +681,16 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
                   label: "C",
                   text: "Wind-down time after dinners",
                   selected: selectedOption == "C",
-                  onTap: () => context.read<StrollBloc>().add(SelectOptionEvent("C")),
+                  onTap: () =>
+                      context.read<StrollBloc>().add(SelectOptionEvent("C")),
                 ),
                 const SizedBox(width: 12),
                 OptionButton(
                   label: "D",
                   text: "The serenity past midnight",
                   selected: selectedOption == "D",
-                  onTap: () => context.read<StrollBloc>().add(SelectOptionEvent("D")),
+                  onTap: () =>
+                      context.read<StrollBloc>().add(SelectOptionEvent("D")),
                 ),
               ],
             ),
@@ -407,37 +700,18 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
     );
   }
 
-  void _enableFocus() {
-    setState(() {
-      _focusNode.canRequestFocus = true;
-    });
-    FocusScope.of(context).requestFocus(_focusNode);
-  }
-
   Widget _buildPromptText() => Padding(
     padding: EdgeInsets.only(left: 2),
-    child: GestureDetector(
-      onTap: _enableFocus,
-      child: TextField(
-        focusNode: _focusNode,
-        style: TextStyle(
-          color: Colors.white60,
-          fontSize: 16,
-        ),
-        decoration: InputDecoration(
-          hintText: 'Pick your option\nSee who has similar mind',
-          hintStyle: TextStyle(
-            color: Colors.white60,
-            fontSize: 16,
-          ),
-          contentPadding: EdgeInsets.all(12),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ),
-        maxLines: null,
-        minLines: 1,
-      ),
-    )
+    child: Text(
+      "Pick your option.\nSee who has a similar mind.",
+      style: TextStyle(
+        fontFamily: 'Proxima Nova',
+        fontWeight: FontWeight.w400,
+        fontSize: 12,
+        height: 1.2, // 120% line height
+        letterSpacing: 0,
+        color: Color(0xFFE5E5E5), // Hex color #E5E5E5
+      )
+    ),
   );
 }

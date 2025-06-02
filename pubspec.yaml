@@ -41,6 +41,7 @@ dependencies:
   neumorphic_ui: ^1.0.1
   video_player: ^2.5.0
   mocktail: ^1.0.4
+  flutter_svg: ^2.1.0
 
 
 
@@ -71,8 +72,17 @@ flutter:
     - assets/sun_set.mp4
     - assets/images/bonefire.png
     - assets/images/playing_card.png
+    - assets/images/badge.png
     - assets/images/speech_bubble.png
     - assets/images/user.png
+    - assets/svg/drop_down.svg
+    - assets/images/watch.png
+    - assets/images/user.png
+    - assets/images/arrow.png
+    - assets/images/mike.png
+    - assets/images/bck.jpg
+    - assets/images/arrow_down.png
+    - assets/images/profile.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -86,10 +96,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: ProximaNova
+      fonts:
+        - asset: assets/font/proximanova_regular.otf
+          weight: 400
+        - asset: assets/font/proxima_nova_semibold.otf  # Your w600 font file here
+          weight: 600
+        - asset: assets/font/proximanova_bold.otf
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
