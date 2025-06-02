@@ -31,7 +31,7 @@ class StrollBonfireView extends StatefulWidget {
 class _StrollBonfireViewState extends State<StrollBonfireView> {
   late VideoPlayerController _controller;
   int _selectedIndex = 0;
-
+  final FocusNode _focusNode = FocusNode(canRequestFocus: false);
   @override
   void initState() {
     super.initState();
@@ -47,6 +47,7 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -406,36 +407,37 @@ class _StrollBonfireViewState extends State<StrollBonfireView> {
     );
   }
 
+  void _enableFocus() {
+    setState(() {
+      _focusNode.canRequestFocus = true;
+    });
+    FocusScope.of(context).requestFocus(_focusNode);
+  }
+
   Widget _buildPromptText() => Padding(
     padding: EdgeInsets.only(left: 2),
-    child: TextField(
-
-      style: TextStyle(
-        color: Colors.white60,
-        fontSize: 16,
-      ),
-      decoration: InputDecoration(
-        hintText: 'Share what you think',
-        hintStyle: TextStyle(
+    child: GestureDetector(
+      onTap: _enableFocus,
+      child: TextField(
+        focusNode: _focusNode,
+        style: TextStyle(
           color: Colors.white60,
           fontSize: 16,
         ),
-        contentPadding: EdgeInsets.all(12),
-        border: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
+        decoration: InputDecoration(
+          hintText: 'Pick your option\nSee who has similar mind',
+          hintStyle: TextStyle(
+            color: Colors.white60,
+            fontSize: 16,
+          ),
+          contentPadding: EdgeInsets.all(12),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+        maxLines: null,
+        minLines: 1,
       ),
-      maxLines: null,
-      minLines: 1,
     )
-
-
-
-
-
-    // Text(
-    //   "Share what you think",
-    //   style: TextStyle(color: Colors.white60, fontSize: 16),
-    // ),
   );
 }
